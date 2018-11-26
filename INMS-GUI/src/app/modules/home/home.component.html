@@ -1,0 +1,175 @@
+<div class="side-panel">
+  <div class="menu-list">
+    <div class="profile-info">
+      <div class="profile-img"><em class="fa fa-user" aria-hidden="true"></em></div>
+    </div>
+    <div class="profile-details">
+      <h3></h3>
+      <br />
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <p-button class="custom-button" (click)="home()" label="Home" styleClass="ui-button-success"></p-button>
+    <br />
+    <br />
+    <p-button
+      class="custom-button"
+      (click)="showDialog()"
+      label="Health Label"
+      styleClass="ui-button-success"
+    ></p-button
+    ><br />
+    <br />
+
+    <p-button
+      class="custom-button"
+      label="Add Ingredients"
+      styleClass="ui-button-success"
+      (click)="addIng()"
+    ></p-button>
+    <br />
+    <br />
+    <br />
+    <br />
+    <p-button class="custom-button" label="Get Recipe" styleClass="ui-button-success" (click)="getRecipe()"></p-button>
+  </div>
+</div>
+<div class="routing-content">
+  <div class="content-area" class="home-img">
+    <div *ngIf="!showRecipe" class="ui-g " [style]="{ margin: '500px' }">
+      <div class="custom-content">
+        <p-card [style]="{ width: '400px', height: '450px' }" styleClass="ui-card-shadow">
+          <img src="Card" src="assets/images/home4.png" class="custom-img" />
+        </p-card>
+      </div>
+      <div class="custom-content1">
+        <p-card
+          header="Lets cook"
+          subheader="Choose ingredients"
+          [style]="{ width: '400px' }"
+          styleClass="ui-card-shadow"
+        >
+          <p-listbox
+            [(options)]="ingredients"
+            [(ngModel)]="selectedIngredients"
+            multiple="multiple"
+            checkbox="checkbox"
+            filter="filter"
+            optionLabel="recipe"
+            (onChange)="onChange()"
+            [listStyle]="{ 'max-height': '20em' }"
+          >
+          </p-listbox>
+        </p-card>
+      </div>
+    </div>
+    <div *ngIf="showRecipe" class="ui-g " [style]="{ margin: '500px' }">
+      <div class="custom-content">
+        <p-card styleClass="ui-card-shadow">
+          <div>
+            <p-listbox
+              class="custom-listbox"
+              [options]="recipeData"
+              [style]="{ margin: '24px' }"
+              [listStyle]="{ 'max-height': '470px' }"
+            >
+              <p-header> <i class="fa fa-car"></i> List of Recipes </p-header>
+              <ng-template let-recipeData let-i="index" pTemplate="item">
+                <div class="ui-helper-clearfix" (click)="onChangeOfRecipe(recipeData)">
+                  <img src="{{recipeData.image}}" style="display:inline-block;margin:5px 0 0 5px" width="100" />
+                  <span style="float:right;margin:20px 10px 0 0"> {{ recipeData.value }}</span>
+                </div>
+              </ng-template>
+            </p-listbox>
+          </div>
+        </p-card>
+      </div>
+      <div class="custom-content1">
+        <p-card styleClass="ui-card-shadow" [style]="{ width: '450px', height: '575px' }">
+          <div class="recipe-info">
+            <div class="profile-img"><img src="{{selectedRecipe.image}}" width="120" /></div>
+          </div>
+          <div class="recipe-name">
+            <strong>
+              <h2 class="custom-heading">{{ selectedRecipe.value }}</h2></strong
+            >
+            <h4 class="custom-heading">
+              <strong>Calorie count-{{ selectedRecipe.calorieCount }} Cal</strong>
+            </h4>
+            <h4>
+              <strong>Preparation time-{{ selectedRecipe.preparationTime }} Mins</strong>
+            </h4>
+          </div>
+
+          <div>
+            <ul class="fieldset-item-list">
+              <li *ngFor="let item of selectedRecipe.ingredientLines">
+                <span class="img-name"> - {{ item }}</span>
+              </li>
+            </ul>
+          </div>
+          <br />
+          <a class="button" href="{{selectedRecipe.preparationUrl}}">More Details</a>
+        </p-card>
+      </div>
+    </div>
+  </div>
+</div>
+<p-dialog
+  header="Health Labels"
+  [contentStyle]="{ overflow: 'visible' }"
+  [(visible)]="displayDialog"
+  [responsive]="true"
+  [resizable]="true"
+  showEffect="fade"
+  [modal]="true"
+>
+  <p-listbox
+    [options]="healthLabels"
+    [(ngModel)]="selectedHealthLabel"
+    multiple="multiple"
+    checkbox="checkbox"
+    optionLabel="label"
+    (onChange)="onChange()"
+  ></p-listbox>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button
+        type="button"
+        pButton
+        icon="fa fa-close"
+        (click)="displayDialog = false"
+        class="ui-button-warning"
+        label="Cancel"
+      ></button>
+      <button
+        type="button"
+        pButton
+        icon="fa fa-check"
+        class="ui-button-success"
+        (click)="saveHealthLabel()"
+        [disabled]="!(selectedHealthLabel.length > 0)"
+        label="Save"
+      ></button>
+    </div>
+  </p-footer>
+</p-dialog>
+<p-dialog header="Add Ingredients" [(visible)]="displayAddIng" [width]="300">
+  <span class="ui-float-label">
+    <br />
+    <input id="float-input" [(ngModel)]="addedIng" type="text" size="30" pInputText /> <label for="float-input"></label>
+  </span>
+  <p-footer>
+    <button
+      type="button"
+      pButton
+      icon="fa fa-check"
+      class="ui-button-success"
+      (click)="saveAddedIng()"
+      [disabled]="!(addedIng.length > 0)"
+      label="Save"
+    ></button>
+  </p-footer>
+</p-dialog>
