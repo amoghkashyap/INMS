@@ -1,0 +1,47 @@
+{
+  "name": "rest_api_grpc_client_for_inms",
+  "version": "1.0.0",
+  "description": "GRPC REST Client for INMS",
+  "main": "./build/index.js",
+  "scripts": {
+    "build": "tsc --outDir ./build -p ./tsconfig.json",
+    "start": "node build/index.js",
+    "dev-build": "npm run build && npm start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "INMS",
+  "license": "ISC",
+  "devDependencies": {
+    "nyc": "11.7.1"
+  },
+  "dependencies": {
+    "@types/body-parser": "1.16.8",
+    "@types/express": "4.11.1",
+    "@types/node": "9.6.6",
+    "body-parser": "1.18.2",
+    "cors": "2.8.4",
+    "express": "4.16.3",
+    "express-winston": "3.0.0",
+    "grpc": "1.10.1",
+    "helmet": "3.12.0",
+    "husky": "0.14.3",
+    "jsonwebtoken": "8.2.1",
+    "lint-staged": "7.1.0",
+    "mocha-multi-reporters": "1.1.7",
+    "moment": "2.22.1",
+    "path": "0.12.7",
+    "path-to-regexp": "2.2.0",
+    "prettier": "1.12.1",
+    "protobufjs": "6.8.6",
+    "request": "2.85.0",
+    "swagger-jsdoc": "1.9.7",
+    "swagger-ui-express": "3.0.8",
+    "ts-node": "6.0.0",
+    "tslint": "5.9.1",
+    "typescript": "2.8.3",
+    "typescript.list": "6.7.0",
+    "uuid": "3.3.2",
+    "winston": "2.4.2",
+    "winston-daily-rotate-file": "3.1.3"
+  }
+}

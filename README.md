@@ -1,1 +1,1 @@
-# INMS_NEW
+Intelligent Nutrition Management System
