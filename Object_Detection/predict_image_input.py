@@ -5,8 +5,8 @@ import time
 import shutil
 import math
 
-sys.path.insert(1, "/home/NNObjectDetect_RetinaNet/RetinaNet/")
-sys.path.insert(1, "/home/NNObjectDetect_RetinaNet/generated/")
+sys.path.insert(1, "/home/akashyap/RetinaNet/")
+#sys.path.insert(1, "/home/NNObjectDetect_RetinaNet/generated/")
 
 import keras
 from keras_retinanet.models.resnet import custom_objects 
@@ -24,7 +24,7 @@ def get_session():
 keras.backend.tensorflow_backend.set_session(get_session())
 print("Loading weights and building model")
 
-model_path = '/mnt/iinvent/ingredients_weight.h5'
+model_path = '/home/akashyap/ingredients.h5'
 
 
 print("Loading Model")
