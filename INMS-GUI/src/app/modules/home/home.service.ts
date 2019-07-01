@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class HomeService {
   constructor(private http: HttpClient) {}
-  public ip = 'http://localhost:50052';
+  public ip = 'http://0.0.0.0:9090';
 
   // get account list
   public getIngredients(): Observable<any> {

@@ -29,11 +29,11 @@ const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 
   {
-    loadChildren: 'app/modules/home/home.module#HomeModule',
+    loadChildren: () => import('app/modules/home/home.module').then(m => m.HomeModule),
     path: 'home'
   },
   {
-    loadChildren: 'app/modules/recipe/recipe.module#RecipeModule',
+    loadChildren: () => import('app/modules/recipe/recipe.module').then(m => m.RecipeModule),
     path: 'recipe'
   }
 ];
