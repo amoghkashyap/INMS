@@ -1,6 +1,6 @@
 export class ServiceHostName {
-    static INMS_SERVICE: string = "40.121.131.36";
-    static INMS_SDK: string = "40.121.131.36";
+    static INMS_SERVICE: string = "137.116.139.79";
+    static INMS_SDK: string = "137.116.139.79";
 }
 
 export class ServicePort {

@@ -62,9 +62,9 @@ export default class Application {
 
     public start(server) {
         this.port = defaultPort;
-        server.listen(this.port, hostname);
+        server.listen(this.port, "0.0.0.0");
         server.on("error", (e: Error) => {
-            Logger.Instance.error("INMS_ORCHESTRATOR: " + "error starting server!", e.message);
+		Logger.Instance.error("INMS_ORCHESTRATOR: " + "error starting server!", e.message);
         });
         server.on("listening", () => {
             Logger.Instance.info("INMS_ORCHESTRATOR: " + "Server started on http://" + hostname + ":" + this.port);

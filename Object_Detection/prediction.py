@@ -12,7 +12,7 @@ import cv2
 import shutil
 import math
 
-sys.path.insert(1, "/home/amogh/RetinaNet/")
+sys.path.insert(1, "/home/akashyap/RetinaNet/")
 
 import keras
 from keras_retinanet.models.resnet import custom_objects 
@@ -33,7 +33,7 @@ class ImageDetection(camera_pb2_grpc.ImageDetectionServicer):
             return tf.Session(config=config)
 
         def run(classes_detected=[],*args):
-            with grpc.insecure_channel('35.221.238.173:50051') as channel:
+            with grpc.insecure_channel('137.116.139.79:50051') as channel:
                 stub = inms_pb2_grpc.DetectionStub(channel)
                 response = stub.UpdateDetectedIngredients(inms_pb2.DetectedIngredientsRequest(container_id="inms",ingredients=classes_detected))
             print("Response from Backend ",response)
@@ -41,7 +41,7 @@ class ImageDetection(camera_pb2_grpc.ImageDetectionServicer):
         keras.backend.tensorflow_backend.set_session(get_session())
         print("Loading weights and building model")
         
-        model_path = '/home/amogh/ingredients.h5'
+        model_path = '/home/akashyap/ingredients.h5'
 
         print("Loading Model")
         model = keras.models.load_model(model_path, custom_objects=custom_objects)

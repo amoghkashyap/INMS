@@ -26,7 +26,7 @@ def receiveImages():
         else:
             print("requestfileitems are:")
             receivedFiles = request.files['upload']
-            receivedFiles.save(os.path.join("/home/amogh/INMS/Object_Detection/",receivedFiles.filename))
+            receivedFiles.save(os.path.join("/home/akashyap/INMS/Object_Detection/",receivedFiles.filename))
 
         print("Saved successfully")
         resp = Response('saved successfully', status=200, mimetype='application/json')
