@@ -19,13 +19,12 @@ public class InmsServer {
         Server server = ServerBuilder.forPort(Constants.INMS_PORT).addService(new DetectionServiceImpl())
                 .addService(new BackendRequestImpl()).build();
         server.start();
-        System.out.println("server started");
-        logger.info("Nutrition management service started.. listening in the port:{}",Constants.INMS_PORT);
+        System.out.println("Nutrition management service started.. listening in the port:"+Constants.INMS_PORT);
         server.awaitTermination();
         }
 
     private static void initializeDb() {
-        logger.info("Initializing the database instance..");
+        System.out.println("Initializing the database instance..");
         DBOperations.initializeCassandra();
     }
 }

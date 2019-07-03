@@ -1,15 +1,16 @@
 package com.nokia.inms.helper;
 
 import com.nokia.inms.common.Constants;
+import com.nokia.inms.db.DBOperations;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.stringtemplate.v4.ST;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
 import java.util.List;
+import java.util.Random;
 
 
 public class RestCalls {
@@ -20,10 +21,8 @@ public class RestCalls {
         JSONObject recipeJsonResponse = null;
         try {
             URL url = new URL(EdamamGetUrl);
-            //Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.158.100.6", 8080))
-            // ;
-            //conn = (HttpURLConnection) url.openConnection(proxy);
-            conn = (HttpURLConnection) url.openConnection();
+            Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.158.100.6", 8080));
+            conn = (HttpURLConnection) url.openConnection(proxy);
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
             if (conn.getResponseCode() != 200) {
@@ -49,17 +48,15 @@ public class RestCalls {
         return recipeJsonResponse;
     }
 
-    public static String urlBuilder(List<String> ingredients, List<String> healthLabels){
-        System.out.println("hello phase 1 url generate Recipe hit!!"+healthLabels);
-        StringBuilder recipeUrlBuilder = new StringBuilder(Constants.EDAMAM_URL);
-        recipeUrlBuilder.append(String.join("&q=",ingredients));
-        recipeUrlBuilder.append(Constants.EDAMAM_KEY);
-        if(healthLabels!= null && healthLabels.size()!=0) {
-            recipeUrlBuilder.append("&health=");
-            recipeUrlBuilder.append(String.join("&health=", healthLabels));
-        }
+    public static String urlBuilder(List<String> ingredients){
+        ApiKey apiKey = DBOperations.getApiKey(new Random().nextInt(200));
+      StringBuilder recipeUrlBuilder = new StringBuilder(Constants.EDAMAM_URL);
+        recipeUrlBuilder.append(String.join("/",ingredients));
+        recipeUrlBuilder.append(Constants.API_KEY);
+        recipeUrlBuilder.append(apiKey.getApiKey());
+        recipeUrlBuilder.append(Constants.API_VALUE);
+        recipeUrlBuilder.append(apiKey.getApiValue());
         recipeUrlBuilder.append(Constants.JSON);
-        System.out.println("hello phase 1 url generation ending  Recipe hit!!"+ recipeUrlBuilder.toString());
         return recipeUrlBuilder.toString();
     }
 }

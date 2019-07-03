@@ -3,6 +3,7 @@ package com.nokia.inms.db;
 import com.datastax.driver.core.*;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.nokia.inms.common.Constants;
+import com.nokia.inms.helper.ApiKey;
 import inms.Inms.DetectedIngredientsRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,6 @@ public class DBOperations {
     private static Session session;
     private static Logger logger = LoggerFactory.getLogger(
             DBOperations.class);
-
 
     public static void initializeCassandra(){
         try {
@@ -38,40 +38,48 @@ public class DBOperations {
 
     private static boolean createTableWithKeyspace() {
         boolean isOperationSuccessful = session.execute(Constants.CREATE_KEYSPACE_QUERY).wasApplied() && session.execute
-                (Constants
-                .CREATE_TABLE_QUERY).wasApplied();
+                (Constants.CREATE_TABLE_QUERY).wasApplied() && session.execute(Constants.CREATE_API_TABLE_QUERY).wasApplied() && session.execute
+                (Constants.CREATE_API_TABLE_QUERY).wasApplied() ;
         logger.info("Creating Keyspace {} and Table {} was succesfull:{}",Constants.CREATE_KEYSPACE_QUERY,Constants
                 .CREATE_TABLE_QUERY,isOperationSuccessful);
         return isOperationSuccessful;
     }
 
     public static boolean addIngredients(DetectedIngredientsRequest detectedIngredientsRequest){
-        try {
-            truncateDBEntries();
-            System.out.println("adding detected ingredients to the DB:{}" + detectedIngredientsRequest.getAllFields());
-            Statement insertQuery = QueryBuilder.insertInto(Constants.KEYSPACE, Constants.TABLE_NAME).value(Constants
-                    .CONTAINER_ID, detectedIngredientsRequest.getContainerId().toString()).value(Constants.INGREDIENT,
-                    detectedIngredientsRequest.getIngredientsList()).ifNotExists();
-            boolean a = session.execute(insertQuery).wasApplied();
-            System.out.println("wasApplied" + a);
-            return a;
-        }catch (Exception e){
-            logger.info("exception",e.getMessage());
-            System.out.println(e.getMessage());
-            return false;
-        }
+        logger.info("adding detected ingredients to the DB:{}",detectedIngredientsRequest);
+        Statement insertQuery = QueryBuilder.insertInto(Constants.KEYSPACE,Constants.TABLE_NAME).value(Constants
+                .CONTAINER_ID,detectedIngredientsRequest.getContainerId()).value(Constants.INGREDIENT,
+                detectedIngredientsRequest.getIngredientsList()).ifNotExists();
+        return session.execute(insertQuery).wasApplied();
     }
 
-    public static Row getIngredients(String containerId){
+    public static String getIngredients(String containerId){
         logger.info("fetching ingredients for the containerId:{}",containerId);
-        Statement fetchIngredients = QueryBuilder.select(Constants.INGREDIENT).from(Constants.KEYSPACE,Constants.TABLE_NAME);
+        Statement fetchIngredients = QueryBuilder.select().from(Constants.KEYSPACE,Constants.TABLE_NAME).where(QueryBuilder.eq(
+                Constants.CONTAINER_ID, containerId));
         List<Row> rows = session.execute(fetchIngredients).all();
         logger.info("data retrieved from the DB :{}",rows);
-        return rows.get(0);
+        if(rows.isEmpty()){
+            return Constants.EMPTY_STRING;
+        }
+        return rows.get(0).getString(Constants.INGREDIENT);
     }
+
     public static boolean truncateDBEntries() {
         logger.info("removing the old entries..");
         Statement truncateTables = QueryBuilder.truncate(Constants.KEYSPACE,Constants.TABLE_NAME);
         return session.execute(truncateTables).wasApplied();
+    }
+
+    public static ApiKey getApiKey(int apiId){
+        logger.info("fetching ingredients for the containerId:{}",apiId);
+        Statement fetchApiKeys = QueryBuilder.select().from(Constants.KEYSPACE,Constants.API_TABLE_NAME).where
+                (QueryBuilder.eq(Constants.API_ID, apiId));
+        List<Row> rows = session.execute(fetchApiKeys).all();
+        logger.info("data retrieved from the DB :{}",rows);
+        String apiKey = rows.get(0).getString(Constants.API_KEY);
+        String apiValue = rows.get(0).getString(Constants.API_VALUE);
+        ApiKey apiKeyObject = new ApiKey(apiKey,apiValue);
+        return apiKeyObject;
     }
 }
