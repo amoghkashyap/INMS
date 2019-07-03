@@ -24,7 +24,8 @@ public final class Constants {
             "replication = " +
             "{'class':'SimpleStrategy', 'replication_factor':1};";
     public static String CREATE_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS "+KEYSPACE_WITH_TABLE+" (container_id " +
-            "varchar PRIMARY KEY,ingredient list<text>)";
+            "varchar PRIMARY " +
+            "KEY,"+"ingredient varchar)";
     public static String CREATE_API_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS "+API_KEYSPACE_WITH_TABLE+" " +
             "(api_id varchar PRIMARY KEY,"+"api_key text, api_value text)";
 }
