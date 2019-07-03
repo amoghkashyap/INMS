@@ -16,6 +16,7 @@ public class BackendRequestImpl extends BackendRequestsGrpc.BackendRequestsImplB
 
     @Override
     public void getRecipes(Inms.GetRecipesRequest request, StreamObserver<Inms.GetRecipesResponse> responseObserver) {
+        System.out.println("Get recipes..");
        GetRecipes getRecipes = new GetRecipes(request);
        responseObserver.onNext(getRecipes.getRecipes());
        responseObserver.onCompleted();

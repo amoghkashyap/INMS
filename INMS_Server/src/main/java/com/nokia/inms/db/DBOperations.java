@@ -81,7 +81,7 @@ public class DBOperations {
         logger.info("fetching ingredients for the containerId:{}",apiId);
         System.out.println("getApiKey!!"+apiId);
         try {
-            Statement fetchApiKeys = QueryBuilder.select().from(Constants.KEYSPACE, Constants.API_TABLE_NAME).where
+            Statement fetchApiKeys = QueryBuilder.select(Constants.INGREDIENT).from(Constants.KEYSPACE, Constants.API_TABLE_NAME).where
                     (QueryBuilder.eq(Constants.API_ID, apiId));
             List<Row> rows = session.execute(fetchApiKeys).all();
             logger.info("data retrieved from the DB :{}", rows);

@@ -23,8 +23,8 @@ public class GetIngredients {
     }
 
     public GetIngredientsResponse fetchIngredients() {
-        System.out.println("hello get Recipe hit!!");
-        System.out.println("hiii its get Recipe request :" + getIngredientsRequest.getAllFields());
+        System.out.println("hello get Ingredients hit!!");
+        System.out.println("hiii its get Ingredients request :" + getIngredientsRequest.getAllFields());
         logger.info("request received for GetIngredients :{}", getIngredientsRequest.getAllFields());
         try {
             Row getIngredients = DBOperations.getIngredients(containerId);
