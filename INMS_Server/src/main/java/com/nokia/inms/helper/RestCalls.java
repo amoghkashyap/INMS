@@ -48,7 +48,7 @@ public class RestCalls {
         return recipeJsonResponse;
     }
 
-    public static String urlBuilder(List<String> ingredients){
+    public static String urlBuilder(List<String> ingredients, List<String> healthLabels){
         ApiKey apiKey = DBOperations.getApiKey(new Random().nextInt(200));
       StringBuilder recipeUrlBuilder = new StringBuilder(Constants.EDAMAM_URL);
         recipeUrlBuilder.append(String.join("/",ingredients));
@@ -56,7 +56,12 @@ public class RestCalls {
         recipeUrlBuilder.append(apiKey.getApiKey());
         recipeUrlBuilder.append(Constants.API_VALUE);
         recipeUrlBuilder.append(apiKey.getApiValue());
+        if(healthLabels!= null && healthLabels.size()!=0) {
+            recipeUrlBuilder.append("&health=");
+            recipeUrlBuilder.append(String.join("&health=", healthLabels));
+        }
         recipeUrlBuilder.append(Constants.JSON);
+        System.out.println("url generation ending !!"+ recipeUrlBuilder.toString());
         return recipeUrlBuilder.toString();
     }
 }

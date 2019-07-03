@@ -18,13 +18,13 @@ public final class Constants {
     public static final String EMPTY_STRING = "";
     public static final String JSON = "&format=json" ;
     public static String KEYSPACE_WITH_TABLE = KEYSPACE+"."+TABLE_NAME;
+    public static final String DEFAULT_PREPARATION_TIME = "30";
     public static String API_KEYSPACE_WITH_TABLE = KEYSPACE+"."+API_TABLE_NAME;
     public static String CREATE_KEYSPACE_QUERY = "CREATE KEYSPACE IF NOT EXISTS "+ KEYSPACE+" WITH " +
             "replication = " +
             "{'class':'SimpleStrategy', 'replication_factor':1};";
     public static String CREATE_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS "+KEYSPACE_WITH_TABLE+" (container_id " +
-            "varchar PRIMARY " +
-            "KEY,"+"ingredient varchar)";
+            "varchar PRIMARY KEY,ingredient list<text>)";
     public static String CREATE_API_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS "+API_KEYSPACE_WITH_TABLE+" " +
             "(api_id varchar PRIMARY KEY,"+"api_key text, api_value text)";
 }

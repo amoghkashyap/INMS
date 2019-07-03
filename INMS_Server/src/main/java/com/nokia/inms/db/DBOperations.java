@@ -46,11 +46,20 @@ public class DBOperations {
     }
 
     public static boolean addIngredients(DetectedIngredientsRequest detectedIngredientsRequest){
-        logger.info("adding detected ingredients to the DB:{}",detectedIngredientsRequest);
-        Statement insertQuery = QueryBuilder.insertInto(Constants.KEYSPACE,Constants.TABLE_NAME).value(Constants
-                .CONTAINER_ID,detectedIngredientsRequest.getContainerId()).value(Constants.INGREDIENT,
-                detectedIngredientsRequest.getIngredientsList()).ifNotExists();
-        return session.execute(insertQuery).wasApplied();
+        try {
+            truncateDBEntries();
+            System.out.println("adding detected ingredients to the DB:{}" + detectedIngredientsRequest.getAllFields());
+            Statement insertQuery = QueryBuilder.insertInto(Constants.KEYSPACE, Constants.TABLE_NAME).value(Constants
+                    .CONTAINER_ID, detectedIngredientsRequest.getContainerId().toString()).value(Constants.INGREDIENT,
+                    detectedIngredientsRequest.getIngredientsList()).ifNotExists();
+            boolean a = session.execute(insertQuery).wasApplied();
+            System.out.println("wasApplied" + a);
+            return a;
+        }catch (Exception e){
+            logger.info("exception",e.getMessage());
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
     public static String getIngredients(String containerId){
