@@ -49,7 +49,9 @@ public class RestCalls {
     }
 
     public static String urlBuilder(List<String> ingredients, List<String> healthLabels){
+        System.out.println("url generation starting !!");
         ApiKey apiKey = DBOperations.getApiKey(new Random().nextInt(200));
+        System.out.println("Get key value!"+apiKey.getApiKey()+apiKey.getApiValue());
       StringBuilder recipeUrlBuilder = new StringBuilder(Constants.EDAMAM_URL);
         recipeUrlBuilder.append(String.join("/",ingredients));
         recipeUrlBuilder.append(Constants.API_KEY);
