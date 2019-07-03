@@ -1,5 +1,6 @@
 package com.nokia.inms.requests;
 
+import com.datastax.driver.core.Row;
 import com.nokia.inms.common.Constants;
 import com.nokia.inms.db.DBOperations;
 import inms.Inms;
@@ -9,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
+import java.util.List;
 
 public class GetIngredients {
     private final GetIngredientsRequest getIngredientsRequest;
@@ -21,19 +23,27 @@ public class GetIngredients {
     }
 
     public GetIngredientsResponse fetchIngredients() {
-        System.out.println("request received for GetIngredients :{}"+getIngredientsRequest.getAllFields());
-        String IngredientsResponse = DBOperations.getIngredients(containerId);
-        if(IngredientsResponse != Constants.EMPTY_STRING){
-            return createResponseForGetIngredients(Inms.StatusCode.SUCCESS,"Ingredients Found!!",IngredientsResponse);
+        System.out.println("hello get Recipe hit!!");
+        System.out.println("hiii its get Recipe request :" + getIngredientsRequest.getAllFields());
+        logger.info("request received for GetIngredients :{}", getIngredientsRequest.getAllFields());
+        try {
+            Row getIngredients = DBOperations.getIngredients(containerId);
+            List<String> ingredients = getIngredients.getList(Constants.INGREDIENT, String.class);
+
+            if (ingredients.size() == 0) {
+                return createResponseForGetIngredients(Inms.StatusCode.SUCCESS, "Ingredients Not Found!!", ingredients);
+            }
+            return createResponseForGetIngredients(Inms.StatusCode.NOT_FOUND, "Ingredients  Found!!", ingredients);
+        } catch (Exception e) {
+            return createResponseForGetIngredients(Inms.StatusCode.NOT_FOUND, "Ingredients not Found!!", null);
+
         }
-        return createResponseForGetIngredients(Inms.StatusCode.NOT_FOUND, "Ingredients not Found!!", IngredientsResponse);
     }
 
-    private GetIngredientsResponse createResponseForGetIngredients(Inms.StatusCode success, String description, String
+    private GetIngredientsResponse createResponseForGetIngredients(Inms.StatusCode success, String description, List<String>
             ingredientsResponse) {
-        Iterable<String> ingredients = Collections.singleton(ingredientsResponse);
         GetIngredientsResponse response = GetIngredientsResponse.newBuilder().setStatus(Inms.Status.newBuilder().setStatusCode(success)
-                .setDescription(description).build()).addAllIngredients(ingredients).build();
+                .setDescription(description).build()).addAllIngredients(ingredientsResponse).build();
         logger.info("response sent for GetIngredients :{}",response.getAllFields());
         return response;
 

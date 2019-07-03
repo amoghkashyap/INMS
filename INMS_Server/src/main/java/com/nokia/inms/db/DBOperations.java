@@ -62,16 +62,13 @@ public class DBOperations {
         }
     }
 
-    public static String getIngredients(String containerId){
+    public static Row getIngredients(String containerId){
         logger.info("fetching ingredients for the containerId:{}",containerId);
         Statement fetchIngredients = QueryBuilder.select().from(Constants.KEYSPACE,Constants.TABLE_NAME).where(QueryBuilder.eq(
                 Constants.CONTAINER_ID, containerId));
         List<Row> rows = session.execute(fetchIngredients).all();
         logger.info("data retrieved from the DB :{}",rows);
-        if(rows.isEmpty()){
-            return Constants.EMPTY_STRING;
-        }
-        return rows.get(0).getString(Constants.INGREDIENT);
+        return rows.get(0);
     }
 
     public static boolean truncateDBEntries() {
