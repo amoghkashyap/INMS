@@ -9,7 +9,6 @@ import inms.Inms.GetIngredientsResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
 import java.util.List;
 
 public class GetIngredients {
@@ -24,6 +23,7 @@ public class GetIngredients {
 
     public GetIngredientsResponse fetchIngredients() {
         logger.info("request received for GetIngredients :{}", getIngredientsRequest.getAllFields());
+        System.out.println("Get Ingredients request received  :"+ getIngredientsRequest.getContainerId());
         try {
             Row getIngredients = DBOperations.getIngredients(containerId);
             List<String> ingredients = getIngredients.getList(Constants.INGREDIENT, String.class);
@@ -43,6 +43,7 @@ public class GetIngredients {
         GetIngredientsResponse response = GetIngredientsResponse.newBuilder().setStatus(Inms.Status.newBuilder().setStatusCode(success)
                 .setDescription(description).build()).addAllIngredients(ingredientsResponse).build();
         logger.info("response sent for GetIngredients :{}",response.getAllFields());
+        System.out.println("Get Ingredients Response sent:"+ response.getStatus());
         return response;
 
     }

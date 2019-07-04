@@ -52,9 +52,7 @@ public class DBOperations {
             Statement insertQuery = QueryBuilder.insertInto(Constants.KEYSPACE, Constants.TABLE_NAME).value(Constants
                     .DB_CONTAINER_ID, detectedIngredientsRequest.getContainerId().toString()).value(Constants.INGREDIENT,
                     detectedIngredientsRequest.getIngredientsList()).ifNotExists();
-            boolean a = session.execute(insertQuery).wasApplied();
-            System.out.println("wasApplied" + a);
-            return a;
+           return session.execute(insertQuery).wasApplied();
         }catch (Exception e){
             logger.info("exception",e.getMessage());
             System.out.println(e.getMessage());
@@ -79,18 +77,17 @@ public class DBOperations {
 
     public static ApiKey getApiKey(int apiId){
         logger.info("fetching ingredients for the containerId:{}",apiId);
-        System.out.println("getApiKey!!"+apiId);
         try {
             Statement fetchApiKeys = QueryBuilder.select().from(Constants.KEYSPACE, Constants.API_TABLE_NAME).where
                     (QueryBuilder.eq(Constants.DB_API_ID, apiId));
             List<Row> rows = session.execute(fetchApiKeys).all();
             logger.info("data retrieved from the DB :{}", rows);
-            System.out.println("hello get Recipe hit!!");
             String apiKey = rows.get(0).getString(Constants.DB_API_KEY);
             String apiValue = rows.get(0).getString(Constants.DB_API_VALUE);
             ApiKey apiKeyObject = new ApiKey(apiKey, apiValue);
             return apiKeyObject;
         }catch (Exception e){
+            logger.info("getApiKey Exception :!!"+apiId+":",e.getMessage());
             System.out.println("getApiKey Exception :!!"+e.getMessage());
         }
       return null;

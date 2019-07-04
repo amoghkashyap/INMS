@@ -16,7 +16,8 @@ public class UpdateDetectedIngredients {
     }
 
     public DetectedIngredientsResponse updateIngredients() {
-        logger.info("request received for adding Ingredients :{}", detectedIngredients.getAllFields());
+        logger.info("request received for UpdateDetectedIngredients :{}", detectedIngredients.getAllFields());
+        System.out.println("Get UpdateDetectedIngredients Request received:"+ detectedIngredients.getContainerId());
         if(DBOperations.addIngredients(detectedIngredients)){
             return createResponseForAddIngredientsRequest(Inms.StatusCode.SUCCESS,"Ingredients added!!");
         }
@@ -28,7 +29,8 @@ public class UpdateDetectedIngredients {
             description) {
         DetectedIngredientsResponse addIngredientsResponse = DetectedIngredientsResponse.newBuilder().setStatus(Inms.Status.newBuilder().setStatusCode
                 (statusCode).setDescription(description).build()).build();
-        logger.info("response sent for adding Ingredients :{}", addIngredientsResponse.getAllFields());
+        logger.info("response sent for UpdateDetectedIngredients :{}", addIngredientsResponse.getAllFields());
+        System.out.println("UpdateDetectedIngredients Response sent:"+ addIngredientsResponse.getStatus());
         return addIngredientsResponse;
     }
 }

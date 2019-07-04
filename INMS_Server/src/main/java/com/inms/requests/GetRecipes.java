@@ -36,13 +36,12 @@ public class GetRecipes {
     }
 
     public GetRecipesResponse getRecipes() {
-        logger.info("request received for adding Ingredients :{}",getRecipesRequest.getAllFields());
+        logger.info("request received for get recipes :{}",getRecipesRequest.getAllFields());
+        System.out.println("Get Recipes Request received:"+ getRecipesRequest.getContainerId());
         List<Inms.Recipes> recipeFinalList = new ArrayList<>();
         try {
             String recipeUrl = RestCalls.urlBuilder(ingredients,healthLabels);
-            logger.error("request received for adding Ingredients :{}",recipeUrl);
             recipeResponse = RestCalls.getCall(recipeUrl);
-            logger.error("request received for adding Ingredients :{}",recipeResponse);
             if (recipeResponse.length() == 0) {
                 return createGetRecipeResponse(Inms.StatusCode.NOT_FOUND,"No recipes Found", recipeFinalList);
             }
@@ -78,6 +77,7 @@ public class GetRecipes {
         getRecipesResponse = GetRecipesResponse.newBuilder().setStatus(Inms.Status.newBuilder()
                 .setStatusCode(statusCode).setDescription(description).build()).addAllRecipes(recipeFinalList).build();
         logger.info("response sent to get recipes request :{}",getRecipesResponse);
+        System.out.println("Get Recipes Response sent:"+ getRecipesResponse.getStatus());
         return getRecipesResponse;
     }
 
