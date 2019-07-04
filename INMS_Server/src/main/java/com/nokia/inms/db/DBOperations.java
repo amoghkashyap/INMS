@@ -81,13 +81,13 @@ public class DBOperations {
         logger.info("fetching ingredients for the containerId:{}",apiId);
         System.out.println("getApiKey!!"+apiId);
         try {
-            Statement fetchApiKeys = QueryBuilder.select(Constants.INGREDIENT).from(Constants.KEYSPACE, Constants.API_TABLE_NAME).where
+            Statement fetchApiKeys = QueryBuilder.select().from(Constants.KEYSPACE, Constants.API_TABLE_NAME).where
                     (QueryBuilder.eq(Constants.API_ID, apiId));
             List<Row> rows = session.execute(fetchApiKeys).all();
             logger.info("data retrieved from the DB :{}", rows);
             System.out.println("hello get Recipe hit!!");
-            String apiKey = rows.get(0).getString(Constants.API_KEY);
-            String apiValue = rows.get(0).getString(Constants.API_VALUE);
+            String apiKey = rows.get(0).getString("api_key");
+            String apiValue = rows.get(0).getString("api_value");
             ApiKey apiKeyObject = new ApiKey(apiKey, apiValue);
             return apiKeyObject;
         }catch (Exception e){
