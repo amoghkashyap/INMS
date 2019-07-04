@@ -31,7 +31,7 @@ public class GetIngredients {
             if (ingredients.size() == 0) {
                 return createResponseForGetIngredients(Inms.StatusCode.SUCCESS, "Ingredients Not Found!!", ingredients);
             }
-            return createResponseForGetIngredients(Inms.StatusCode.NOT_FOUND, "Ingredients  Found!!", ingredients);
+            return createResponseForGetIngredients(Inms.StatusCode.SUCCESS, "Ingredients  Found!!", ingredients);
         } catch (Exception e) {
             return createResponseForGetIngredients(Inms.StatusCode.NOT_FOUND, "Ingredients not Found!!", null);
 
