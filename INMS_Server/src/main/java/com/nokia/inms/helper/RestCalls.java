@@ -21,8 +21,8 @@ public class RestCalls {
         JSONObject recipeJsonResponse = null;
         try {
             URL url = new URL(EdamamGetUrl);
-            Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.158.100.6", 8080));
-            conn = (HttpURLConnection) url.openConnection(proxy);
+            //Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.158.100.6", 8080));
+            conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
             if (conn.getResponseCode() != 200) {
