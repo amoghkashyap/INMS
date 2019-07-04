@@ -1,6 +1,6 @@
-package com.nokia.inms.serviceImpl;
+package com.inms.serviceImpl;
 
-import com.nokia.inms.requests.UpdateDetectedIngredients;
+import com.inms.requests.UpdateDetectedIngredients;
 import inms.DetectionGrpc;
 import inms.Inms;
 import io.grpc.stub.StreamObserver;

@@ -1,7 +1,7 @@
-package com.nokia.inms.requests;
+package com.inms.requests;
 
-import com.nokia.inms.common.Constants;
-import com.nokia.inms.helper.RestCalls;
+import com.inms.common.Constants;
+import com.inms.helper.RestCalls;
 import inms.Inms;
 import inms.Inms.GetRecipesRequest;
 import inms.Inms.GetRecipesResponse;
@@ -12,11 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class GetRecipes {
-    private List<String> allergicIngredients;
     private String containerId;
     private List<String> ingredients;
     private List<String> healthLabels;
@@ -39,7 +37,6 @@ public class GetRecipes {
 
     public GetRecipesResponse getRecipes() {
         logger.info("request received for adding Ingredients :{}",getRecipesRequest.getAllFields());
-        System.out.println("hello get Recipe hit!!");
         List<Inms.Recipes> recipeFinalList = new ArrayList<>();
         try {
             String recipeUrl = RestCalls.urlBuilder(ingredients,healthLabels);
@@ -69,7 +66,6 @@ public class GetRecipes {
                                 (recipeName).setPreparationUrl(preparationUrl).build();
                 recipeFinalList.add(recipes);
             }
-            System.out.println("hiiii complete"+ recipeFinalList);
             return createGetRecipeResponse(statusCode, description, recipeFinalList);
         }catch (Exception e){
             logger.info("Exception occurred while getting recipes information ",e);
@@ -82,7 +78,6 @@ public class GetRecipes {
         getRecipesResponse = GetRecipesResponse.newBuilder().setStatus(Inms.Status.newBuilder()
                 .setStatusCode(statusCode).setDescription(description).build()).addAllRecipes(recipeFinalList).build();
         logger.info("response sent to get recipes request :{}",getRecipesResponse);
-        System.out.println("Recipe response :"+getRecipesResponse);
         return getRecipesResponse;
     }
 

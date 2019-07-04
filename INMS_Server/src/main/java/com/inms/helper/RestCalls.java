@@ -1,7 +1,7 @@
-package com.nokia.inms.helper;
+package com.inms.helper;
 
-import com.nokia.inms.common.Constants;
-import com.nokia.inms.db.DBOperations;
+import com.inms.common.Constants;
+import com.inms.db.DBOperations;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,7 +21,6 @@ public class RestCalls {
         JSONObject recipeJsonResponse = null;
         try {
             URL url = new URL(EdamamGetUrl);
-            //Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.158.100.6", 8080));
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
@@ -49,21 +48,22 @@ public class RestCalls {
     }
 
     public static String urlBuilder(List<String> ingredients, List<String> healthLabels){
-        System.out.println("url generation starting !!");
-        ApiKey apiKey = DBOperations.getApiKey(new Random().nextInt(200));
-        System.out.println("Get key value!"+apiKey.getApiKey()+apiKey.getApiValue());
-      StringBuilder recipeUrlBuilder = new StringBuilder(Constants.EDAMAM_URL);
+        int apiId = new Random().nextInt(200);
+        if (apiId == 0 ){
+            apiId = 1;
+        }
+        ApiKey apiKey = DBOperations.getApiKey(apiId);
+        StringBuilder recipeUrlBuilder = new StringBuilder(Constants.URL);
         recipeUrlBuilder.append(String.join("/",ingredients));
-        recipeUrlBuilder.append(Constants.API_KEY);
+        recipeUrlBuilder.append(Constants.URL_API_KEY);
         recipeUrlBuilder.append(apiKey.getApiKey());
-        recipeUrlBuilder.append(Constants.API_VALUE);
+        recipeUrlBuilder.append(Constants.URL_API_VALUE);
         recipeUrlBuilder.append(apiKey.getApiValue());
         if(healthLabels!= null && healthLabels.size()!=0) {
-            recipeUrlBuilder.append("&health=");
-            recipeUrlBuilder.append(String.join("&health=", healthLabels));
+            recipeUrlBuilder.append(Constants.URL_HEALTH_LABEL);
+            recipeUrlBuilder.append(String.join(Constants.URL_HEALTH_LABEL, healthLabels));
         }
         recipeUrlBuilder.append(Constants.JSON);
-        System.out.println("url generation ending !!"+ recipeUrlBuilder.toString());
         return recipeUrlBuilder.toString();
     }
 }

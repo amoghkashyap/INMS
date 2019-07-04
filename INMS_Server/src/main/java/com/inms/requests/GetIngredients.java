@@ -1,8 +1,8 @@
-package com.nokia.inms.requests;
+package com.inms.requests;
 
 import com.datastax.driver.core.Row;
-import com.nokia.inms.common.Constants;
-import com.nokia.inms.db.DBOperations;
+import com.inms.common.Constants;
+import com.inms.db.DBOperations;
 import inms.Inms;
 import inms.Inms.GetIngredientsRequest;
 import inms.Inms.GetIngredientsResponse;
@@ -23,7 +23,6 @@ public class GetIngredients {
     }
 
     public GetIngredientsResponse fetchIngredients() {
-        System.out.println("hiii its get Ingredients request :" + getIngredientsRequest.getAllFields());
         logger.info("request received for GetIngredients :{}", getIngredientsRequest.getAllFields());
         try {
             Row getIngredients = DBOperations.getIngredients(containerId);

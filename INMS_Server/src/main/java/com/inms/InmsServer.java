@@ -1,8 +1,8 @@
-package com.nokia.inms;
-import com.nokia.inms.common.Constants;
-import com.nokia.inms.db.DBOperations;
-import com.nokia.inms.serviceImpl.BackendRequestImpl;
-import com.nokia.inms.serviceImpl.DetectionServiceImpl;
+package com.inms;
+import com.inms.common.Constants;
+import com.inms.db.DBOperations;
+import com.inms.serviceImpl.BackendRequestImpl;
+import com.inms.serviceImpl.DetectionServiceImpl;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import org.slf4j.Logger;

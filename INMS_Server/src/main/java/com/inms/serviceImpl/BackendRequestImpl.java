@@ -1,7 +1,7 @@
-package com.nokia.inms.serviceImpl;
+package com.inms.serviceImpl;
 
-import com.nokia.inms.requests.GetIngredients;
-import com.nokia.inms.requests.GetRecipes;
+import com.inms.requests.GetIngredients;
+import com.inms.requests.GetRecipes;
 import inms.BackendRequestsGrpc;
 import inms.Inms;
 import io.grpc.stub.StreamObserver;
@@ -16,7 +16,6 @@ public class BackendRequestImpl extends BackendRequestsGrpc.BackendRequestsImplB
 
     @Override
     public void getRecipes(Inms.GetRecipesRequest request, StreamObserver<Inms.GetRecipesResponse> responseObserver) {
-        System.out.println("Get recipes..");
        GetRecipes getRecipes = new GetRecipes(request);
        responseObserver.onNext(getRecipes.getRecipes());
        responseObserver.onCompleted();

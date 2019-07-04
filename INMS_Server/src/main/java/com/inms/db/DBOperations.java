@@ -1,9 +1,9 @@
-package com.nokia.inms.db;
+package com.inms.db;
 
 import com.datastax.driver.core.*;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
-import com.nokia.inms.common.Constants;
-import com.nokia.inms.helper.ApiKey;
+import com.inms.common.Constants;
+import com.inms.helper.ApiKey;
 import inms.Inms.DetectedIngredientsRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +50,7 @@ public class DBOperations {
             truncateDBEntries();
             System.out.println("adding detected ingredients to the DB:{}" + detectedIngredientsRequest.getAllFields());
             Statement insertQuery = QueryBuilder.insertInto(Constants.KEYSPACE, Constants.TABLE_NAME).value(Constants
-                    .CONTAINER_ID, detectedIngredientsRequest.getContainerId().toString()).value(Constants.INGREDIENT,
+                    .DB_CONTAINER_ID, detectedIngredientsRequest.getContainerId().toString()).value(Constants.INGREDIENT,
                     detectedIngredientsRequest.getIngredientsList()).ifNotExists();
             boolean a = session.execute(insertQuery).wasApplied();
             System.out.println("wasApplied" + a);
@@ -65,7 +65,7 @@ public class DBOperations {
     public static Row getIngredients(String containerId){
         logger.info("fetching ingredients for the containerId:{}",containerId);
         Statement fetchIngredients = QueryBuilder.select().from(Constants.KEYSPACE,Constants.TABLE_NAME).where(QueryBuilder.eq(
-                Constants.CONTAINER_ID, containerId));
+                Constants.DB_CONTAINER_ID, containerId));
         List<Row> rows = session.execute(fetchIngredients).all();
         logger.info("data retrieved from the DB :{}",rows);
         return rows.get(0);
@@ -82,12 +82,12 @@ public class DBOperations {
         System.out.println("getApiKey!!"+apiId);
         try {
             Statement fetchApiKeys = QueryBuilder.select().from(Constants.KEYSPACE, Constants.API_TABLE_NAME).where
-                    (QueryBuilder.eq(Constants.API_ID, apiId));
+                    (QueryBuilder.eq(Constants.DB_API_ID, apiId));
             List<Row> rows = session.execute(fetchApiKeys).all();
             logger.info("data retrieved from the DB :{}", rows);
             System.out.println("hello get Recipe hit!!");
-            String apiKey = rows.get(0).getString("api_key");
-            String apiValue = rows.get(0).getString("api_value");
+            String apiKey = rows.get(0).getString(Constants.DB_API_KEY);
+            String apiValue = rows.get(0).getString(Constants.DB_API_VALUE);
             ApiKey apiKeyObject = new ApiKey(apiKey, apiValue);
             return apiKeyObject;
         }catch (Exception e){

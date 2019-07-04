@@ -175,7 +175,7 @@
                                 </descriptorRefs>
                                 <archive>
                                     <manifest>
-                                        <mainClass>com.nokia.inms.InmsServer</mainClass>
+                                        <mainClass>com.inms.InmsServer</mainClass>
                                     </manifest>
                                 </archive>
                             </configuration>

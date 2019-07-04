@@ -1,6 +1,6 @@
-package com.nokia.inms.requests;
+package com.inms.requests;
 
-import com.nokia.inms.db.DBOperations;
+import com.inms.db.DBOperations;
 import inms.Inms;
 import inms.Inms.DetectedIngredientsResponse;
 import inms.Inms.DetectedIngredientsRequest;

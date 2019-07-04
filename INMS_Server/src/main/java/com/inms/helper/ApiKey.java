@@ -1,4 +1,4 @@
-package com.nokia.inms.helper;
+package com.inms.helper;
 
 public class ApiKey {
 
